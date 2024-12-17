@@ -1,0 +1,57 @@
+1. Ataque HTTP Flood com HULK (HTTP Unbearable Load King)
+O HULK é uma ferramenta que gera requisições HTTP de forma massiva, mas com características únicas, dificultando que o servidor utilize cache ou sistemas de mitigação de DDoS.
+
+
+python hulk.py http://seusite.com
+Explicação: O HULK gera tráfego HTTP para sobrecarregar servidores web. Ele é projetado para evitar mitigação por cache e pode derrubar servidores muito rapidamente.
+2. Ataque DNS Amplification (com dnspoof)
+O DNS Amplification é uma técnica de ataque onde um servidor DNS vulnerável é usado para amplificar um ataque para o alvo, gerando um tráfego massivo de dados.
+
+dnspoof -h -t http://seusite.com
+Explicação: dnspoof manipula pacotes DNS e pode gerar um tráfego amplificado que sobrecarrega servidores DNS e o servidor de destino. Ao fazer isso, você cria uma onda de tráfego enorme sem consumir muitos recursos do atacante.
+3. Ataque SSDP DDoS (Simple Service Discovery Protocol)
+O SSDP DDoS explora dispositivos conectados à Internet das Coisas (IoT) que utilizam o protocolo SSDP. Esses dispositivos podem ser usados para gerar tráfego massivo contra um servidor alvo.
+
+
+hping3 --udp -p 1900 --flood --rand-source 239.255.255.250
+Explicação: O SSDP é um protocolo utilizado para descoberta de serviços de rede. Utilizando o hping3, é possível gerar pacotes UDP SSDP, resultando em um tráfego massivo que pode ser usado como parte de um ataque DDoS amplificado.
+4. Ataque HTTP/2 DoS (H2C Flood)
+O HTTP/2 é um protocolo moderno, mas seu uso pode ser explorado para causar negação de serviço. Esse script ataca servidores vulneráveis a falhas em implementações de HTTP/2.
+
+curl -X GET --http2 -i http://seusite.com
+Explicação: Ao forçar o uso de HTTP/2 em uma conexão com curl, é possível sobrecarregar servidores mal configurados, utilizando os fluxos múltiplos e a complexidade do protocolo.
+**5. Ataque Ping Flood com Ping of Death
+O Ping of Death envia pacotes ICMP (ping) com tamanhos exorbitantes, que podem fazer com que o servidor ou dispositivo alvo congele ou falhe.
+
+ping -s 65500 http://seusite.com
+Explicação: Este comando envia pacotes de ping com tamanho acima do limite padrão, forçando o alvo a processar pacotes muito grandes, o que pode levar a uma sobrecarga de recursos ou falhas em sistemas que não estão protegidos.
+6. Ataque RST (TCP Reset)
+Um ataque RST (Reset) tenta fechar conexões TCP de forma maliciosa, encerrando sessões válidas no servidor e impedindo que o tráfego legítimo entre.
+
+hping3 -R -p 80 --flood --rand-source http://seusite.com
+Explicação: Enviar pacotes TCP Reset interrompe as conexões ativas, cortando as sessões legítimas e forçando o servidor a ficar indisponível, como uma forma de DoS (Denial of Service).
+7. Ataque BGP Hijacking
+BGP Hijacking permite redirecionar o tráfego da Internet para o atacante, o que pode resultar em DDoS em grande escala.
+
+# Um script para BGP Hijacking requer acesso ao ASN do provedor.
+Explicação: BGP Hijacking é uma técnica de manipulação do protocolo BGP para redirecionar tráfego através de rotas falsas, tornando possível desviar o tráfego da internet para ser interceptado ou sobrecarregar um servidor.
+8. Ataque NTP Reflection
+O NTP (Network Time Protocol) pode ser utilizado para refletir pacotes de forma massiva, causando grandes volumes de tráfego em um alvo.
+
+ntpdc -c monlist <servidor-ntp> | nc -u -w1 seusite.com 123
+Explicação: Este ataque explora servidores NTP mal configurados para amplificar o tráfego e floodar o alvo com pacotes NTP. É uma forma de ataque reflexivo que pode ser extremamente eficaz.
+9. Ataque Zero-Day
+Zero-day refere-se a vulnerabilidades desconhecidas, e os atacantes podem explorar falhas de segurança em servidores web ou protocolos como HTTP e DNS.
+
+# Realizar um ataque zero-day envolve identificar e explorar uma falha não corrigida no sistema alvo.
+Explicação: Um Zero-Day Attack pode ser devastador, pois não existem patches ou defesas conhecidas. Exploração de falhas não corrigidas pode permitir controle total sobre o servidor ou rede.
+10. Ataque DDoS via Botnet (com Tor ou IOT)
+Se você estiver explorando dispositivos IoT vulneráveis ou uma rede de bots (botnet), você pode lançar um ataque DDoS em grande escala usando milhares de dispositivos.
+
+python botnet_ddos.py -t http://seusite.com
+Explicação: A utilização de botnets e dispositivos IoT comprometidos (como câmeras, roteadores) gera um tráfego imenso contra o alvo. Com dispositivos de baixo custo, você pode realizar ataques de grande escala com alta intensidade.
+11. Ataque SMURF
+O Smurf Attack usa pacotes ICMP com endereço de origem falsificado para sobrecargar o alvo.
+
+hping3 --icmp --flood --rand-source http://seusite.com
+Explicação: O ataque Smurf é um tipo de reflexão ICMP onde os pacotes são enviados a rede de broadcast com o IP de origem falsificado. Isso faz com que múltiplos dispositivos da rede respondam, causando um DDoS massivo no alvo.
